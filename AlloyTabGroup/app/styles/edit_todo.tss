@@ -1,0 +1,25 @@
+
+".container" : {
+  layout: "vertical",
+  backgroundColor: "white"
+}
+
+"Label[platform=android]": {
+	color: "black"
+}
+"TextField[platform=android]":{
+	hintTextColor: "blue"
+}
+"View": {
+	height: "20%"
+}
+"TextField": {
+	left: 80,
+	right: 10
+}
+"Label": {
+	left: 10,
+	font: {
+		fontSize: 20
+	}
+}

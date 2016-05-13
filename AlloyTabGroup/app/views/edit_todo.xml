@@ -1,0 +1,22 @@
+<Alloy>
+	<Window class="container" title="Tab 1">
+		<View>
+			<Label>Titolo</Label>
+			<TextField hintText="cosa vuoi fare"></TextField>
+		</View>
+		<View>
+			<Label>Dove</Label>
+			<TextField hintText="dove"></TextField>
+		</View>
+		<View>
+			<Label>Allarme</Label>
+			<Switch value="false"/>
+		</View>
+		<View>
+			<Label>Scadenza</Label>
+			<Button>Oggi</Button>
+		</View>
+		<Button>Aggiungi</Button>
+
+	</Window>
+</Alloy>

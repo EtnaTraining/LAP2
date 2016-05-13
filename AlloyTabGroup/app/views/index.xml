@@ -1,0 +1,10 @@
+<Alloy>
+	<TabGroup>
+		<Tab title="Modifica Todo" icon="KS_nav_ui.png">
+			<Require src="edit_todo"/>
+		</Tab>
+		<Tab title="Elenco Todo" icon="KS_nav_views.png">
+			<Require src="elenco_todo"></Require>
+		</Tab>
+	</TabGroup>
+</Alloy>
