@@ -1,0 +1,6 @@
+<Alloy>
+	<Window>
+		<Picker id="picker" type="Ti.UI.PICKER_TYPE_DATE" onChange="dataScelta"></Picker>
+		<Button onClick="closeDueDateWin">Chiudi</Button>
+	</Window>
+</Alloy>

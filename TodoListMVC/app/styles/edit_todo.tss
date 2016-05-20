@@ -1,0 +1,49 @@
+
+".container" : {
+  layout: "vertical",
+  backgroundColor: "white"
+}
+
+"Label[platform=android]": {
+	color: "black"
+}
+"TextField[platform=android]":{
+	hintTextColor: "#c6c6c6",
+    color: "black"
+}
+"View": {
+	height: "20%"
+}
+"TextField": {
+	left: 100,
+	right: 10,
+    height: 45,
+    /*borderWidth: 1,*/
+}
+"Switch": {
+    left: 100
+}
+"Label": {
+	left: 10,
+	font: {
+		fontSize: 20
+	}
+}
+
+"#scegliScadenzaBtn": {
+    left: 100,
+    right: 5,
+    height: 45
+    /*borderWidth: 1,
+    borderColor: "red"*/
+}
+
+"#footer": {
+
+}
+
+"#thumb": {
+    left: 5,
+    //height: 100,
+    width: 150
+}

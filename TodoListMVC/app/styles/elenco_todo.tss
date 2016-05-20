@@ -1,0 +1,9 @@
+
+".container" : {
+
+}
+
+"#lista[platform=android]": {
+    minRowHeight: 60,
+    //backgroundColor: "black"
+}

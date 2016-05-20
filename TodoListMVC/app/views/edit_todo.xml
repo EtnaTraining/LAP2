@@ -1,0 +1,26 @@
+<Alloy>
+	<Window class="container" title="Modifica Todo">
+		<View>
+			<Label on>Titolo</Label>
+			<TextField id="titleTxt" hintText="cosa vuoi fare"></TextField>
+		</View>
+		<View>
+			<Label>Dove</Label>
+			<TextField id="locationTxt" hintText="dove"></TextField>
+		</View>
+		<View>
+			<Label>Allarme</Label>
+			<Switch id="alarmSwt" value="false"/>
+		</View>
+		<View>
+			<Label>Scadenza</Label>
+			<Button id="scegliScadenzaBtn" onClick="scegliScadenza">Oggi</Button>
+		</View>
+		<View id="footer">
+			<ImageView id="thumb"
+				image="/images/todo_default.png"
+				onClick="chooseImage"></ImageView>
+			<Button onClick="addTodo">Aggiungi</Button>
+		</View>
+	</Window>
+</Alloy>

@@ -1,0 +1,13 @@
+
+"Window" : {
+  layout: "vertical",
+  backgroundColor: "white"
+}
+
+"Window[platform=android]": {
+    backgroundColor: "black"
+}
+
+"Picker": {
+    top: 30
+}
