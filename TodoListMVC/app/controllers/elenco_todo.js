@@ -8,7 +8,7 @@ var args = $.args;
 var db = require("services/db");
 var todolist = db.getTodolist();
 
-
+// load from the database the first time
 var tableRows = [];
 Ti.API.info(todolist);
 for (var i = 0; i<todolist.length; i++) {
@@ -19,7 +19,7 @@ for (var i = 0; i<todolist.length; i++) {
             fontSize: 20
         },
         hasChild: true,
-        leftImage: "/images/todo_default.png"
+        leftImage: Ti.Filesystem.applicationDataDirectory + todolist[i].thumb
     };
     tableRows.push(row);
 }
@@ -30,6 +30,7 @@ $.lista.setData(tableRows);
 $.addTodo = function(todo) {
     todolist.push(todo);
     Ti.App.Properties.setList("todolist", todolist);
+
     var row = {
         title: todo.title,
         color: "black",
@@ -37,8 +38,9 @@ $.addTodo = function(todo) {
             fontSize: 20
         },
         hasChild: true,
-        leftImage: "/appicon.png"
+        leftImage: Ti.Filesystem.applicationDataDirectory + todo.thumb
     };
+    Ti.API.info(row);
 
     $.lista.appendRow(row);
 }

@@ -1,7 +1,9 @@
 
+Ti.API.info("Inizializzo o apro il db");
 var db = Ti.Database.open("ToDoDB");
-db.execute("CREATE TABLE IF NOT EXISTS todolist(id INTEGER PRIMARY KEY, title TEXT, location TEXT, alarm INTEGER, dueDate TEXT)");
+var result = db.execute("CREATE TABLE IF NOT EXISTS todolist(id INTEGER PRIMARY KEY, title TEXT, location TEXT, alarm INTEGER, dueDate TEXT, filename TEXT)");
 db.close();
+//Ti.API.info('ho inizializzato e il risutato : ' + result);
 
 
 exports.getTodolist = function() {
@@ -14,6 +16,7 @@ exports.getTodolist = function() {
     	todo.location = result.fieldByName("location");
     	todo.alarm = result.fieldByName("alarm");
     	todo.dueDate = result.fieldByName("dueDate");
+        todo.thumb = result.fieldByName("filename");
     	todo.hasChild = true;
     	todolist.push(todo);
     	result.next();
@@ -25,7 +28,7 @@ exports.getTodolist = function() {
 
 exports.saveTodo = function(todo) {
     var db = Ti.Database.open("ToDoDB");
-    db.execute("INSERT INTO todolist(title, location, alarm, duedate)
-        VALUES (?, ?, ?, ?)", todo.title, todo.location, todo.alarm, todo.duedate);
+    db.execute("INSERT INTO todolist(title, location, alarm, duedate, filename)
+        VALUES (?, ?, ?, ?, ?)", todo.title, todo.location, todo.alarm, todo.duedate, todo.thumb);
     db.close();
 };
