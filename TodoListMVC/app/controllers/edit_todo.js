@@ -2,6 +2,9 @@
 var args = $.args;
 
 var db = require("services/db");
+var net = require("services/network");
+Ti.API.info("default image:")
+Ti.API.info($.thumb.image);
 
 function addTodo() {
     var todo = {};
@@ -16,20 +19,28 @@ function addTodo() {
     $.locationTxt.value = "";
     $.alarmSwt.value = false;
     $.scegliScadenzaBtn.title = "Oggi";
-    var filename = todo.title.replace(/ /g, "_") + "-" + new Date().getTime();
-    var f = Ti.Filesystem.getFile(Ti.Filesystem.applicationDataDirectory, filename + ".jpg");
-    f.write($.thumb.image);
 
-
-    todo.thumb = filename + "_thumb.jpg";
-    f = Ti.Filesystem.getFile(Ti.Filesystem.applicationDataDirectory,todo.thumb);
-    f.write($.thumb.image.imageAsThumbnail(60,0, 30));
-    f = null;
+    // && $.thumb.image.indexOf("todo_default.png") == -1
+    if (typeof($.thumb.image) != "string") {
+        var filename = todo.title.replace(/ /g, "_") + "-" + new Date().getTime();
+        var f = Ti.Filesystem.getFile(Ti.Filesystem.applicationDataDirectory, filename + ".jpg");
+        f.write($.thumb.image);
+        todo.thumb = filename + "_thumb.jpg";
+        f = Ti.Filesystem.getFile(Ti.Filesystem.applicationDataDirectory,todo.thumb);
+        f.write($.thumb.image.imageAsThumbnail(60,0, 30));
+        f = null;
+    }
     $.addTodo(todo);
 
     // salva todo su db
 
     db.saveTodo(todo);
+
+    // salva in rete
+    if (Ti.Network.online) {
+        todo.path = todo.thumb;
+        net.saveTodo(todo);
+    }
 
 
     // switch to tab1 (elenco_todo)

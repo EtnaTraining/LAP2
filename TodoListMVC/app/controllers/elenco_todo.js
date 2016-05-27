@@ -6,25 +6,48 @@ var args = $.args;
 //var todolist = Ti.App.Properties.getList("todolist", [])
 
 var db = require("services/db");
-var todolist = db.getTodolist();
+var net = require("services/network");
+var todolist = [];
+
+
+
+
+if (Ti.Network.online) {
+    //net.getTodolist("pippo");
+    net.getTodolist(function(data) {
+        todolist = data;
+        //Ti.API.info(todolist);
+        populate();
+    });
+
+} else {
+    todolist = db.getTodolist();
+    populate();
+}
+
+
 
 // load from the database the first time
-var tableRows = [];
-Ti.API.info(todolist);
-for (var i = 0; i<todolist.length; i++) {
-    var row = {
-        title: todolist[i].title,
-        color: "black",
-        font: {
-            fontSize: 20
-        },
-        hasChild: true,
-        leftImage: Ti.Filesystem.applicationDataDirectory + todolist[i].thumb
-    };
-    tableRows.push(row);
+function populate() {
+    var tableRows = [];
+    Ti.API.info(todolist);
+    for (var i = 0; i<todolist.length; i++) {
+        todolist[i].thumb = todolist[i].path;
+        var row = {
+            title: todolist[i].title,
+            color: "black",
+            font: {
+                fontSize: 20
+            },
+            hasChild: true,
+            leftImage: Ti.Filesystem.applicationDataDirectory + todolist[i].thumb
+        };
+        tableRows.push(row);
+    }
+    $.lista.setData(tableRows);
+    // todolist.data = todolist;
 }
-$.lista.setData(tableRows);
-// todolist.data = todolist;
+
 
 
 $.addTodo = function(todo) {
