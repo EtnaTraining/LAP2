@@ -1,40 +1,77 @@
 // Arguments passed into this controller can be accessed via the `$.args` object directly or:
 var args = $.args;
 
-var db = require("services/db");
-var net = require("services/network");
-Ti.API.info("default image:")
-Ti.API.info($.thumb.image);
+var db = require("/services/db");
+var net = require("/services/net");
+//Ti.API.info("default image:")
+//Ti.API.info($.thumb.image);
+
+//Ti.API.info("singleton:");
+//Ti.API.info(Alloy.Models.todo);
+Alloy.Models.todo.set({
+    "duedate": "Oggi",
+    "filename": "/images/todo_default.png"
+});
+
+
+
 
 function addTodo() {
     var todo = {};
     todo.title = $.titleTxt.value;
+    if (!todo.title) {
+        alert("Please insert a title at least!");
+        return;
+    }
     todo.location = $.locationTxt.value;
     todo.alarm = $.alarmSwt.value;
-    todo.duedate = $.scegliScadenzaBtn.title;
+    if ($.scegliScadenzaBtn.title == "Oggi") {
+        var duedate = new Date()
+    } else {
+        var duedate = new Date($.scegliScadenzaBtn.title);
+    }
+    todo.duedate = duedate.toISOString().split("T")[0];
+
     // invia todo alla elenco_todo
 
     //$.switchTab(1);
-    $.titleTxt.value = "";
-    $.locationTxt.value = "";
-    $.alarmSwt.value = false;
-    $.scegliScadenzaBtn.title = "Oggi";
 
     // && $.thumb.image.indexOf("todo_default.png") == -1
     if (typeof($.thumb.image) != "string") {
         var filename = todo.title.replace(/ /g, "_") + "-" + new Date().getTime();
+        todo.filename = filename + ".jpg";
         var f = Ti.Filesystem.getFile(Ti.Filesystem.applicationDataDirectory, filename + ".jpg");
         f.write($.thumb.image);
-        todo.thumb = filename + "_thumb.jpg";
-        f = Ti.Filesystem.getFile(Ti.Filesystem.applicationDataDirectory,todo.thumb);
+        var thumb = filename + "_thumb.jpg";
+        f = Ti.Filesystem.getFile(Ti.Filesystem.applicationDataDirectory, thumb);
         f.write($.thumb.image.imageAsThumbnail(60,0, 30));
         f = null;
+    } else {
+        
+        todo.filename = Alloy.Models.todo.get("filename");
+        Ti.API.info("setto il filname: " + todo.filename);
     }
-    $.addTodo(todo);
+
+    //$.addTodo(todo);
+
+    $.titleTxt.value = "";
+    $.locationTxt.value = "";
+    $.alarmSwt.value = false;
+    $.scegliScadenzaBtn.title = "Oggi";
+    $.thumb.image = "/images/todo_default.png";
+
 
     // salva todo su db
+    // usando il modulo db.js
+    //db.saveTodo(todo);
+    // salva todo con Alloy Model
+    Ti.API.info(todo);
+    var newTodo = Alloy.createModel("Todo", todo);
 
-    db.saveTodo(todo);
+    // persistenza usando Alloy Model
+    newTodo.save();
+
+    Alloy.Collections.todo.add(newTodo);
 
     // salva in rete
     if (Ti.Network.online) {
@@ -44,6 +81,7 @@ function addTodo() {
 
 
     // switch to tab1 (elenco_todo)
+    $.switchTab(1);
 }
 
 

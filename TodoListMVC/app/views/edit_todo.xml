@@ -1,24 +1,26 @@
 <Alloy>
+	<Model src="todo"/>
 	<Window class="container" title="Modifica Todo">
 		<View>
 			<Label on>Titolo</Label>
-			<TextField id="titleTxt" hintText="cosa vuoi fare"></TextField>
+			<TextField id="titleTxt" hintText="cosa vuoi fare" value="{todo.title}"></TextField>
 		</View>
 		<View>
 			<Label>Dove</Label>
-			<TextField id="locationTxt" hintText="dove"></TextField>
+			<TextField id="locationTxt" hintText="dove" value="{todo.location}"></TextField>
 		</View>
 		<View>
 			<Label>Allarme</Label>
-			<Switch id="alarmSwt" value="false"/>
+			<Switch id="alarmSwt" value="false" value="{todo.alarm}"/>
 		</View>
 		<View>
 			<Label>Scadenza</Label>
-			<Button id="scegliScadenzaBtn" onClick="scegliScadenza">Oggi</Button>
+			<Button id="scegliScadenzaBtn" onClick="scegliScadenza" title="{todo.duedate}"></Button>
 		</View>
 		<View id="footer">
 			<ImageView id="thumb"
-				image="/images/todo_default.png"
+				image="{todo.thumb}"
+
 				onClick="chooseImage"></ImageView>
 			<Button onClick="addTodo">Aggiungi</Button>
 		</View>

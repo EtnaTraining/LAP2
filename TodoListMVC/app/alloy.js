@@ -8,10 +8,11 @@
 // accessible globally by attaching them to the `Alloy.Globals`
 // object. For example:
 //
-// Alloy.Globals.someGlobalFunction = function(){};
+//
+
 
 Ti.API.info("===================================================");
 Ti.API.info("Path app : " + Ti.Filesystem.applicationDirectory);
 Ti.API.info("Path dataDirectory : " + Ti.Filesystem.applicationDataDirectory);
 Ti.API.info("===================================================");
-Ti.API.info('Prova!');
+//Ti.API.info('Prova!');

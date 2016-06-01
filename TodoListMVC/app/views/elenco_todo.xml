@@ -1,5 +1,16 @@
 <Alloy>
+	<Collection src="todo"></Collection>
 	<Window title="Elenco Todo">
-		<TableView id="lista"></TableView>
+		<TableView
+			id="lista"
+			dataCollection="todo"
+			dataTransform="correctPath"
+			onClick="editTodo">
+			<TableViewRow
+				title="{title}"
+				leftImage="{thumbnail}"
+				hasChild="true"></TableViewRow>
+		</TableView>
+		<ActivityIndicator id="actInd" message="loading..."></ActivityIndicator>
 	</Window>
 </Alloy>

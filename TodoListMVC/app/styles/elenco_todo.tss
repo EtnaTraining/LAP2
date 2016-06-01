@@ -7,3 +7,16 @@
     minRowHeight: 60,
     //backgroundColor: "black"
 }
+
+"#actInd": {
+    color: 'black',
+    font: {fontFamily:'Helvetica Neue', fontSize:26, fontWeight:'bold'},
+    style: Ti.UI.ActivityIndicatorStyle.BIG
+},
+
+"TableViewRow[platform=android]": {
+    color: "black",
+    font: {
+        fontSize: 20
+    }
+}

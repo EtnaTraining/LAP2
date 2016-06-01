@@ -1,5 +1,5 @@
 
-Ti.API.info("Inizializzo o apro il db");
+//Ti.API.info("Inizializzo o apro il db");
 var db = Ti.Database.open("ToDoDB");
 var result = db.execute("CREATE TABLE IF NOT EXISTS todolist(id INTEGER PRIMARY KEY, title TEXT, location TEXT, alarm INTEGER, dueDate TEXT, filename TEXT)");
 db.close();

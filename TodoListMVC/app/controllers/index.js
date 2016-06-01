@@ -1,4 +1,5 @@
 $.index.open();
+$.index.setActiveTab(1);
 
 //var tab1 = $.index.tabs[0];
 //var tab2 = $.index.tabs[1];
@@ -17,6 +18,8 @@ function addTodo(todo) {
 
 $.editTodoCtrl.addTodo = addTodo;
 
-$.editTodoCtrl.switchTab = function(tabNum) {
+function switchTab(tabNum) {
     $.index.setActiveTab(tabNum);
 }
+
+$.editTodoCtrl.switchTab = $.listTodoCtrl.switchTab = switchTab;
