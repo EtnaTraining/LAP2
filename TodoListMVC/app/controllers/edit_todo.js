@@ -17,12 +17,19 @@ currentTodo.set({
     isEditable: false
 });
 
-currentTodo.on("change:isEditable", function() {
-    if (currentTodo.get("isEditable")) {
-        $.editBtn.title = "Modifica";
-    }  else {
-        $.editBtn.title = "Aggiungi";
-    }
+var inEditMode = false;
+
+currentTodo.on("change", function() {
+    Ti.API.info('todo cambiata');
+    $.editBtn.title = "Modifica";
+    // if (currentTodo.get("isEditable")) {
+    //     $.editBtn.title = "Modifica";
+    // }  else {
+    //     $.editBtn.title = "Aggiungi";
+    // }
+    inEditMode = true;
+    Ti.API.info("inEditMode: " + inEditMode);
+
 });
 
 
@@ -131,16 +138,45 @@ function addTodo() {
     //db.saveTodo(todo);
     // salva todo con Alloy Model
     Ti.API.info(todo);
-    if (currentTodo.get("isEditable")) {
-        currentTodo.set(todo);
+    if (inEditMode) {
+        Ti.API.info('Modifico todo');
+        // currentTodo contiene una copia del modello todo selezionato dalla collection
+        // il metodo .get() restituisce il modello della collection che ha lo stesso id (alloy_id)
+        // invocando il metodo set sul modello restituito aggiorno la collection
+        // e di conseguenza il binding aggiorna la TableView nella elenco_todo.xml
+        // così abbiamo rimosso il fetch() dal database
+        Alloy.Collections.todo.get(currentTodo).set(todo);
+        //currentTodo.set(todo);
+        // Alloy.Collections.todo.fetch();
         currentTodo.save();
-        Alloy.Collections.todo.fetch();
+        //resettiamo la currentTodo in modo da avere nuovamente il tasto aggiungi todo
+        currentTodo.set({
+             title: "",
+             location: "",
+             alarm: false,
+             duedate: "Oggi",
+             thumb: "/images/todo_default.png",
+             filename: "",
+        //     isEditable: false
+        }, {silent:true});
+        // $.titleTxt.value = "";
+        // $.locationTxt.value = "";
+        // $.alarmSwt.value = false;
+        // $.scegliScadenzaBtn.title = "Oggi";
+        // $.thumb.image = "/images/todo_default.png";
+        $.editBtn.title = "Aggiungi";
+        inEditMode = false;
+
     } else {
+        Ti.API.info('Aggiungo todo');
+
         var newTodo = Alloy.createModel("Todo", todo);
+        Ti.API.info(newTodo);
         Alloy.Collections.todo.add(newTodo);
         newTodo.save();
-    }
 
+    }
+    $.switchTab(1);
 
     // persistenza usando Alloy Model
 
@@ -155,7 +191,7 @@ function addTodo() {
 
 
     // switch to tab1 (elenco_todo)
-    $.switchTab(1);
+
 }
 
 
