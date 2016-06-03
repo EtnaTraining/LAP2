@@ -1,0 +1,21 @@
+
+".container" : {
+
+}
+
+"#map": {
+    region: {
+        latitude: 37.38,
+        latitudeDelta: 1,
+        longitude: 15,
+        longitudeDelta: 1
+    },
+    userLocation: true
+}
+
+"#pin": {
+    title: "my todo",
+    latitude: 37.38,
+    longitude: 15,
+    pincolor: 0
+}

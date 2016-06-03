@@ -8,7 +8,7 @@
 		<View>
 			<Label>Dove</Label>
 			<TextField id="locationTxt" hintText="dove" value="{todo.location}"></TextField>
-			<ImageView id="gpsImg" image="/images/gps.png" onClick="getPosition"></ImageView>
+			<ImageView id="gpsImg" image="/images/gps.png" onClick="showMap"></ImageView>
 		</View>
 		<View>
 			<Label>Allarme</Label>

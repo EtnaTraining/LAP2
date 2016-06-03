@@ -43,6 +43,13 @@
 		</plist>
 	</ios>
 	<android xmlns:android="http://schemas.android.com/apk/res/android">
+		<manifest>
+            <application>
+                <!-- Replace "PASTE YOUR GOOGLE MAPS API KEY HERE" with the Google API key you obtained -->
+                <meta-data android:name="com.google.android.maps.v2.API_KEY"
+                    android:value="PASTE YOUR GOOGLE MAPS API KEY HERE"/>
+            </application>
+        </manifest>
 	</android>
 	<mobileweb>
 		<precache>
@@ -54,6 +61,8 @@
 		<theme>default</theme>
 	</mobileweb>
 	<modules>
+		<module platform="android">ti.map</module>
+		<module platform="iphone">ti.map</module>
 	</modules>
 	<deployment-targets>
 		<target device="android">true</target>

@@ -25,36 +25,61 @@ currentTodo.on("change:isEditable", function() {
     }
 });
 
+
+function showMap() {
+    var mapwin = Alloy.createController("todo_map").getView();
+    if (OS_IOS) {
+        $.openWindow(mapwin);
+    } else {
+        mapwin.open();
+    }
+    getPosition();
+
+}
+
 function findPosition() {
+    Ti.API.info("cerco la tua posizione in find position");
     Ti.Geolocation.getCurrentPosition(function(e) {
         if (e.success) {
             Ti.API.info("Posizione trovata");
             Ti.API.info("Latitudine: " + e.coords.latitude);
             Ti.API.info("Latitudine: " + e.coords.longitude);
+            Ti.Geolocation.reverseGeocoder(e.coords.latitude, e.coords.longitude, function(e) {
+                if (e.success) {
+                    Ti.API.info(e.places);
+                    $.locationTxt.value = e.places[0].address;
+                }
+            });
         } else {
-            Ti.API.info("Some errror occured");
-            Ti.API.info(e.error);
+            Ti.API.info("Non sono riuscito a trovare la posizione");
+            Ti.API.info(JSON.stringify(e.error));
         }
     });
 };
 
+
+
 function getPosition() {
-        Ti.API.info("cerco la tua posizione:");
-        Ti.API.info(Ti.Geolocation.hasLocationPermissions(Ti.Geolocation.AUTHORIZATION_WHEN_IN_USE));
+        //Ti.API.info("cerco la tua posizione:");
+        Ti.API.info('In getPosition');
+
         if (Ti.Geolocation.hasLocationPermissions(Ti.Geolocation.AUTHORIZATION_WHEN_IN_USE)) {
+            Ti.API.info("Abbiamo i permessi");
             findPosition();
         } else {
             Ti.Geolocation.requestLocationPermissions(Ti.Geolocation.AUTHORIZATION_WHEN_IN_USE, function(e) {
                 if (e.success) {
                     findPosition();
                 } else {
+                    Ti.API.info("Non sono riuscito ad ottenere i permessi");
                     Ti.API.info("Some errror occured");
                     Ti.API.info(e.error);
                 }
             })
-            alert("non hai i permessi !");
+            //alert("non hai i permessi !");
         }
 };
+
 
 function addTodo() {
     var todo = {};
