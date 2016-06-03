@@ -8,7 +8,7 @@
 			onClick="editTodo">
 			<TableViewRow
 				title="{title}"
-				leftImage="{thumbnail}"
+				leftImage="{thumb}"
 				hasChild="true"></TableViewRow>
 		</TableView>
 		<ActivityIndicator id="actInd" message="loading..."></ActivityIndicator>

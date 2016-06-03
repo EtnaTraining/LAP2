@@ -8,6 +8,7 @@
 		<View>
 			<Label>Dove</Label>
 			<TextField id="locationTxt" hintText="dove" value="{todo.location}"></TextField>
+			<ImageView id="gpsImg" image="/images/gps.png" onClick="getPosition"></ImageView>
 		</View>
 		<View>
 			<Label>Allarme</Label>
@@ -22,7 +23,7 @@
 				image="{todo.thumb}"
 
 				onClick="chooseImage"></ImageView>
-			<Button onClick="addTodo">Aggiungi</Button>
+			<Button id="editBtn" onClick="addTodo">Aggiungi</Button>
 		</View>
 	</Window>
 </Alloy>

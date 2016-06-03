@@ -8,13 +8,53 @@ var net = require("/services/net");
 
 //Ti.API.info("singleton:");
 //Ti.API.info(Alloy.Models.todo);
-Alloy.Models.todo.set({
-    "duedate": "Oggi",
-    "filename": "/images/todo_default.png"
+var currentTodo = Alloy.Models.todo;
+
+currentTodo.set({
+    alarm: false,
+    duedate: "Oggi",
+    thumb: "/images/todo_default.png",
+    isEditable: false
 });
 
+currentTodo.on("change:isEditable", function() {
+    if (currentTodo.get("isEditable")) {
+        $.editBtn.title = "Modifica";
+    }  else {
+        $.editBtn.title = "Aggiungi";
+    }
+});
 
+function findPosition() {
+    Ti.Geolocation.getCurrentPosition(function(e) {
+        if (e.success) {
+            Ti.API.info("Posizione trovata");
+            Ti.API.info("Latitudine: " + e.coords.latitude);
+            Ti.API.info("Latitudine: " + e.coords.longitude);
+        } else {
+            Ti.API.info("Some errror occured");
+            Ti.API.info(e.error);
+        }
+    });
+};
 
+function getPosition() {
+        Ti.API.info("cerco la tua posizione:");
+        Ti.API.info(Ti.Geolocation.hasLocationPermissions(Ti.Geolocation.AUTHORIZATION_WHEN_IN_USE));
+        if (Ti.Geolocation.hasLocationPermissions(Ti.Geolocation.AUTHORIZATION_WHEN_IN_USE)) {
+            findPosition();
+        } else {
+            Ti.Geolocation.requestLocationPermissions(Ti.Geolocation.AUTHORIZATION_WHEN_IN_USE, function(e) {
+                if (e.success) {
+                    findPosition();
+                } else {
+                    Ti.API.info("Some errror occured");
+                    Ti.API.info(e.error);
+                }
+            })
+            alert("non hai i permessi !");
+        }
+};
 
 function addTodo() {
     var todo = {};
@@ -47,7 +87,7 @@ function addTodo() {
         f.write($.thumb.image.imageAsThumbnail(60,0, 30));
         f = null;
     } else {
-        
+
         todo.filename = Alloy.Models.todo.get("filename");
         Ti.API.info("setto il filname: " + todo.filename);
     }
@@ -66,12 +106,21 @@ function addTodo() {
     //db.saveTodo(todo);
     // salva todo con Alloy Model
     Ti.API.info(todo);
-    var newTodo = Alloy.createModel("Todo", todo);
+    if (currentTodo.get("isEditable")) {
+        currentTodo.set(todo);
+        currentTodo.save();
+        Alloy.Collections.todo.fetch();
+    } else {
+        var newTodo = Alloy.createModel("Todo", todo);
+        Alloy.Collections.todo.add(newTodo);
+        newTodo.save();
+    }
+
 
     // persistenza usando Alloy Model
-    newTodo.save();
 
-    Alloy.Collections.todo.add(newTodo);
+
+
 
     // salva in rete
     if (Ti.Network.online) {

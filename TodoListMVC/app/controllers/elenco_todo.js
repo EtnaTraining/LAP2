@@ -20,6 +20,7 @@ function editTodo(e) {
         todo.filename.substr(0, todo.filename.length-4) + "_thumb.jpg" :
         "/images/todo_default.png";
     todo.duedate = String.formatDate(new Date(todo.duedate), "long");
+    todo.isEditable = true;
     todoToBeEdit.set(todo);
     // todoToBeEdit.set({
     //     title: todo.title,
@@ -39,7 +40,7 @@ function editTodo(e) {
 function correctPath(todo) {
     //Ti.API.info("siamo qui!!!");
     var todo = todo.toJSON();
-    todo.thumbnail = todo.filename?
+    todo.thumb = todo.filename?
         Ti.Filesystem.applicationDataDirectory +
         todo.filename.substr(0, todo.filename.length-4) + "_thumb.jpg" :
         "/images/todo_default.png"

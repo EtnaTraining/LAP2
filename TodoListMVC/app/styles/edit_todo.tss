@@ -47,3 +47,13 @@
     //height: 100,
     width: 150
 }
+
+"#locationTxt": {
+    right: 60
+}
+
+"#gpsImg": {
+    right: 5,
+    width: 50,
+    height: 50
+}

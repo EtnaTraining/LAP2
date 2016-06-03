@@ -1,5 +1,5 @@
 $.index.open();
-$.index.setActiveTab(1);
+//$.index.setActiveTab(1);
 
 //var tab1 = $.index.tabs[0];
 //var tab2 = $.index.tabs[1];
