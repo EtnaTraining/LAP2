@@ -13,9 +13,9 @@
     userLocation: true
 }
 
-"#pin": {
+"#todoAnn": {
     title: "my todo",
-    latitude: 37.38,
-    longitude: 15,
+    latitude: 0,
+    longitude: 0,
     pincolor: 0
 }

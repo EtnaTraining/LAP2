@@ -10,6 +10,12 @@ var net = require("/services/net");
 //Ti.API.info(Alloy.Models.todo);
 var currentTodo = Alloy.Models.todo;
 
+
+//
+$.sv.contentHeight = 464*2;
+
+
+
 currentTodo.set({
     alarm: false,
     duedate: "Oggi",
@@ -34,58 +40,23 @@ currentTodo.on("change", function() {
 
 
 function showMap() {
-    var mapwin = Alloy.createController("todo_map").getView();
+    var mapwin = Alloy.createController("todo_map", {
+      location: $.locationTxt.value,
+      title: $.titleTxt.value,
+      setLocation: function(address) {
+        $.locationTxt.value = address;
+      }
+    }).getView();
     if (OS_IOS) {
         $.openWindow(mapwin);
     } else {
         mapwin.open();
     }
-    getPosition();
+    //getPosition();
 
 }
 
-function findPosition() {
-    Ti.API.info("cerco la tua posizione in find position");
-    Ti.Geolocation.getCurrentPosition(function(e) {
-        if (e.success) {
-            Ti.API.info("Posizione trovata");
-            Ti.API.info("Latitudine: " + e.coords.latitude);
-            Ti.API.info("Latitudine: " + e.coords.longitude);
-            Ti.Geolocation.reverseGeocoder(e.coords.latitude, e.coords.longitude, function(e) {
-                if (e.success) {
-                    Ti.API.info(e.places);
-                    $.locationTxt.value = e.places[0].address;
-                }
-            });
-        } else {
-            Ti.API.info("Non sono riuscito a trovare la posizione");
-            Ti.API.info(JSON.stringify(e.error));
-        }
-    });
-};
 
-
-
-function getPosition() {
-        //Ti.API.info("cerco la tua posizione:");
-        Ti.API.info('In getPosition');
-
-        if (Ti.Geolocation.hasLocationPermissions(Ti.Geolocation.AUTHORIZATION_WHEN_IN_USE)) {
-            Ti.API.info("Abbiamo i permessi");
-            findPosition();
-        } else {
-            Ti.Geolocation.requestLocationPermissions(Ti.Geolocation.AUTHORIZATION_WHEN_IN_USE, function(e) {
-                if (e.success) {
-                    findPosition();
-                } else {
-                    Ti.API.info("Non sono riuscito ad ottenere i permessi");
-                    Ti.API.info("Some errror occured");
-                    Ti.API.info(e.error);
-                }
-            })
-            //alert("non hai i permessi !");
-        }
-};
 
 
 function addTodo() {

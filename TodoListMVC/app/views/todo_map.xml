@@ -1,7 +1,7 @@
 <Alloy>
 	<Window>
 		<Module id="map" module="ti.map">
-			<Annotation id="pin" />
+			<Annotation id="todoAnn" />
 		</Module>
 	</Window>
 </Alloy>

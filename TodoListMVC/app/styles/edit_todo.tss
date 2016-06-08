@@ -33,7 +33,9 @@
 "#scegliScadenzaBtn": {
     left: 100,
     right: 5,
-    height: 45
+    height: 45,
+    height: "60",
+
     /*borderWidth: 1,
     borderColor: "red"*/
 }
@@ -44,8 +46,9 @@
 
 "#thumb": {
     left: 5,
-    //height: 100,
-    width: 150
+    height: 80,
+    width: 80,
+    borderRadius: 40
 }
 
 "#locationTxt": {

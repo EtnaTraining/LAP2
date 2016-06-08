@@ -1,6 +1,7 @@
 <Alloy>
 	<Model src="todo"/>
 	<Window class="container" title="Modifica Todo">
+		<ScrollView id="sv" layout="vertical">
 		<View>
 			<Label on>Titolo</Label>
 			<TextField id="titleTxt" hintText="cosa vuoi fare" value="{todo.title}"></TextField>
@@ -25,5 +26,6 @@
 				onClick="chooseImage"></ImageView>
 			<Button id="editBtn" onClick="addTodo">Aggiungi</Button>
 		</View>
+	</ScrollView>
 	</Window>
 </Alloy>
