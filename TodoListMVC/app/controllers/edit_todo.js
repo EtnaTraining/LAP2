@@ -3,37 +3,41 @@ var args = $.args;
 
 var db = require("/services/db");
 var net = require("/services/net");
-//Ti.API.info("default image:")
-//Ti.API.info($.thumb.image);
 
-//Ti.API.info("singleton:");
-//Ti.API.info(Alloy.Models.todo);
 var currentTodo = Alloy.Models.todo;
 
 
-//
-$.sv.contentHeight = 464*2;
+if (OS_IOS) {
+    $.sv.contentHeight = $.edit_todo.size.height;
+} else {
+    $.sv.contentHeight = 464*2;
+}
 
 
 
-currentTodo.set({
-    alarm: false,
-    duedate: "Oggi",
-    thumb: "/images/todo_default.png",
-    isEditable: false
-});
+$.scegliScadenzaBtn.title = "Oggi";
+$.thumb.image = "/images/todo_default.png";
 
 var inEditMode = false;
+// data corrente della scadenza
+var selectedDate = new Date();
 
-currentTodo.on("change", function() {
-    Ti.API.info('todo cambiata');
+
+// aggiorna la view nel caso di selezione di una todo dalla lista
+currentTodo.on("edit", function() {
+
     $.editBtn.title = "Modifica";
-    // if (currentTodo.get("isEditable")) {
-    //     $.editBtn.title = "Modifica";
-    // }  else {
-    //     $.editBtn.title = "Aggiungi";
-    // }
+    $.edit_todo.title = "Modifica Todo";
     inEditMode = true;
+    selectedDate = new Date(currentTodo.get("duedate"));
+
+    currentTodo.set({
+        "duedateFormatted": String.formatDate(new Date(currentTodo.get("duedate")), "medium"),
+        "thumb": currentTodo.get("filename")?
+            Ti.Filesystem.applicationDataDirectory +
+            currentTodo.get("filename").substr(0, currentTodo.get("filename").length-4) + "_thumb.jpg" :
+            "/images/todo_default.png"
+    });
     Ti.API.info("inEditMode: " + inEditMode);
 
 });
@@ -60,26 +64,16 @@ function showMap() {
 
 
 function addTodo() {
-    var todo = {};
-    todo.title = $.titleTxt.value;
-    if (!todo.title) {
+    if (!$.titleTxt.value) {
         alert("Please insert a title at least!");
         return;
     }
+    var todo = {};
+    todo.title = $.titleTxt.value;
     todo.location = $.locationTxt.value;
     todo.alarm = $.alarmSwt.value;
-    if ($.scegliScadenzaBtn.title == "Oggi") {
-        var duedate = new Date()
-    } else {
-        var duedate = new Date($.scegliScadenzaBtn.title);
-    }
-    todo.duedate = duedate.toISOString().split("T")[0];
+    todo.duedate = selectedDate.toISOString().split("T")[0];
 
-    // invia todo alla elenco_todo
-
-    //$.switchTab(1);
-
-    // && $.thumb.image.indexOf("todo_default.png") == -1
     if (typeof($.thumb.image) != "string") {
         var filename = todo.title.replace(/ /g, "_") + "-" + new Date().getTime();
         todo.filename = filename + ".jpg";
@@ -92,23 +86,18 @@ function addTodo() {
     } else {
 
         todo.filename = Alloy.Models.todo.get("filename");
-        Ti.API.info("setto il filname: " + todo.filename);
+        //Ti.API.info("setto il filname: " + todo.filename);
     }
 
     //$.addTodo(todo);
 
-    $.titleTxt.value = "";
-    $.locationTxt.value = "";
-    $.alarmSwt.value = false;
-    $.scegliScadenzaBtn.title = "Oggi";
-    $.thumb.image = "/images/todo_default.png";
 
 
     // salva todo su db
     // usando il modulo db.js
     //db.saveTodo(todo);
     // salva todo con Alloy Model
-    Ti.API.info(todo);
+    //Ti.API.info(todo);
     if (inEditMode) {
         Ti.API.info('Modifico todo');
         // currentTodo contiene una copia del modello todo selezionato dalla collection
@@ -117,42 +106,31 @@ function addTodo() {
         // e di conseguenza il binding aggiorna la TableView nella elenco_todo.xml
         // così abbiamo rimosso il fetch() dal database
         Alloy.Collections.todo.get(currentTodo).set(todo);
-        //currentTodo.set(todo);
-        // Alloy.Collections.todo.fetch();
-        currentTodo.save();
-        //resettiamo la currentTodo in modo da avere nuovamente il tasto aggiungi todo
-        currentTodo.set({
-             title: "",
-             location: "",
-             alarm: false,
-             duedate: "Oggi",
-             thumb: "/images/todo_default.png",
-             filename: "",
-        //     isEditable: false
-        }, {silent:true});
-        // $.titleTxt.value = "";
-        // $.locationTxt.value = "";
-        // $.alarmSwt.value = false;
-        // $.scegliScadenzaBtn.title = "Oggi";
-        // $.thumb.image = "/images/todo_default.png";
+        Alloy.Collections.todo.get(currentTodo).save();
+        // switch to tab1 (elenco_todo)
+        $.switchTab(1);
         $.editBtn.title = "Aggiungi";
+        $.edit_todo.title = "Aggiungi Todo";
         inEditMode = false;
 
     } else {
-        Ti.API.info('Aggiungo todo');
-
-        var newTodo = Alloy.createModel("Todo", todo);
+        Ti.API.info('Aggiungo nuova todo');
+        var newTodo = Alloy.createModel("todo", todo);
         Ti.API.info(newTodo);
         Alloy.Collections.todo.add(newTodo);
+        // switch to tab1 (elenco_todo)
+        $.switchTab(1);
         newTodo.save();
-
     }
-    $.switchTab(1);
 
-    // persistenza usando Alloy Model
+    selectedDate = new Date();
+    $.titleTxt.value = "";
+    $.locationTxt.value = "";
+    $.alarmSwt.value = false;
+    $.scegliScadenzaBtn.title = "Oggi";
+    $.thumb.image = "/images/todo_default.png";
 
-
-
+    $.titleTxt.focus();
 
     // salva in rete
     if (Ti.Network.online) {
@@ -160,26 +138,26 @@ function addTodo() {
         net.saveTodo(todo);
     }
 
-
-    // switch to tab1 (elenco_todo)
-
 }
 
 
 function scegliScadenza(e) {
-    //var scadenza = $.scegliScadenzaBtn.title;
+
     var scadenzaViewCtrl = Alloy.createController("scadenza_todo",
         {
-            scadenza: $.scegliScadenzaBtn.title,
-            setDueDate: function(scadenza) {
+            scadenza: selectedDate,
+            setDueDate: function(nuovaScadenza) {
                 Ti.API.info("scadenza: ");
-                Ti.API.info(scadenza);
-                $.scegliScadenzaBtn.title = String.formatDate(scadenza, "medium");
+                selectedDate = nuovaScadenza;
+                //currentTodo.set({"duedate": scadenza}, {silent: true});
+                Ti.API.info("setting todo date:");
+
+                $.scegliScadenzaBtn.title = String.formatDate(nuovaScadenza, "medium");
             }});
     var scadenzaWin = scadenzaViewCtrl.getView();
     if (OS_IOS) {
-        scadenzaWin.title = "Scegli la scadenza";
-        //$.currentTab.open(scadenzaWin);
+        scadenzaWin.title = "Scegli la scadenza..";
+
         $.openWindow(scadenzaWin);
     } else {
         scadenzaWin.open();
@@ -210,7 +188,7 @@ function chooseImage(e){
             f3 = null; */
         },
         cancel: function() {
-            alert("ma perchèèèèèèèè...");
+            alert("ma perchèèèèèèèè....");
         },
         allowEdition: true
     });

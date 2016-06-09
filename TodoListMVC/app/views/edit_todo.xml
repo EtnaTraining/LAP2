@@ -1,6 +1,6 @@
 <Alloy>
 	<Model src="todo"/>
-	<Window class="container" title="Modifica Todo">
+	<Window class="container" title="Nuova Todo">
 		<ScrollView id="sv" layout="vertical">
 		<View>
 			<Label on>Titolo</Label>
@@ -17,7 +17,7 @@
 		</View>
 		<View>
 			<Label>Scadenza</Label>
-			<Button id="scegliScadenzaBtn" onClick="scegliScadenza" title="{todo.duedate}"></Button>
+			<Button id="scegliScadenzaBtn" onClick="scegliScadenza" title="{todo.duedateFormatted}"></Button>
 		</View>
 		<View id="footer">
 			<ImageView id="thumb"

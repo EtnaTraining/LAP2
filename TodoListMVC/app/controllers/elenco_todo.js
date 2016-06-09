@@ -12,17 +12,19 @@ function editTodo(e) {
     var index = e.index;
     //Ti.API.info(todolist.at(index));
     var todo = todolist.at(index).toJSON();
-    var todoToBeEdit = Alloy.Models.todo;
+    var currentTodo = Alloy.Models.todo;
 
     //Ti.API.info("singleton:");
     //Ti.API.info(todoToBeEdit);
-    todo.thumb = todo.filename?
-        Ti.Filesystem.applicationDataDirectory +
-        todo.filename.substr(0, todo.filename.length-4) + "_thumb.jpg" :
-        "/images/todo_default.png";
-    todo.duedate = String.formatDate(new Date(todo.duedate), "long");
+    // todo.thumb = todo.filename?
+    //     Ti.Filesystem.applicationDataDirectory +
+    //     todo.filename.substr(0, todo.filename.length-4) + "_thumb.jpg" :
+    //     "/images/todo_default.png";
+    //todo.duedate = String.formatDate(new Date(todo.duedate), "long");
+
     //todo.isEditable = true;
-    todoToBeEdit.set(todo);
+    currentTodo.set(todo);
+    currentTodo.trigger("edit");
     // todoToBeEdit.set({
     //     title: todo.title,
     //     location: todo.location,
@@ -33,7 +35,7 @@ function editTodo(e) {
     //         todo.filename.substr(0, todo.filename.length-4) + "_thumb.jpg" :
     //         "/images/todo_default.png"
     // });
-    Ti.API.info(todoToBeEdit);
+    //Ti.API.info(todoToBeEdit);
     $.switchTab(0);
 
 }
@@ -99,6 +101,28 @@ function createRow(todo) {
             "/images/todo_default.png"
     };
 }
+
+function deleteTodo(e) {
+    //Ti.API.info(e);
+    if (OS_ANDROID) {
+        var dialog = Ti.UI.createAlertDialog({
+            cancel: 1,
+            buttonNames: ['Confirm', 'Cancel'],
+            message: 'Would you like to delete the todo?',
+            title: 'Delete'
+        });
+        dialog.addEventListener('click', function(ev){
+            if (ev.index === 0){
+                Alloy.Collections.todo.at(e.index).destroy();
+            }
+        });
+        dialog.show();
+    } else {
+        Alloy.Collections.todo.at(e.index).destroy();
+    }
+
+}
+
 
 
 $.addTodo = function(todo) {

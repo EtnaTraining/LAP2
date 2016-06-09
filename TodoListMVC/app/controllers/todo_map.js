@@ -91,7 +91,7 @@ function checkPermission(_callback) {
         } else {
             Ti.Geolocation.requestLocationPermissions(Ti.Geolocation.AUTHORIZATION_WHEN_IN_USE, function(e) {
                 if (e.success) {
-                    _callback({sucess: true});
+                    _callback({success: true});
                 } else {
                     Ti.API.info("Non sono riuscito ad ottenere i permessi");
                     Ti.API.info("Some errror occured");

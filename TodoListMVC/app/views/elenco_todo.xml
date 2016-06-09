@@ -3,9 +3,10 @@
 	<Window title="Elenco Todo">
 		<TableView
 			id="lista"
+			editable="true"
 			dataCollection="todo"
 			dataTransform="correctPath"
-			onClick="editTodo">
+			onClick="editTodo" onDelete="deleteTodo" onLongclick="deleteTodo" >
 			<TableViewRow
 				title="{title}"
 				leftImage="{thumb}"
