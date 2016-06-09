@@ -6,7 +6,7 @@ var net = require("/services/net");
 
 var currentTodo = Alloy.Models.todo;
 
-
+// da fixare
 if (OS_IOS) {
     $.sv.contentHeight = $.edit_todo.size.height;
 } else {
@@ -56,8 +56,6 @@ function showMap() {
     } else {
         mapwin.open();
     }
-    //getPosition();
-
 }
 
 
@@ -84,20 +82,22 @@ function addTodo() {
         f.write($.thumb.image.imageAsThumbnail(60,0, 30));
         f = null;
     } else {
+        // in editMode
+        if (inEditMode) {
+            todo.filename = currentTodo.get("filename");
+        } else {
+            todo.filename =  null; // default image
+        }
 
-        todo.filename = Alloy.Models.todo.get("filename");
-        //Ti.API.info("setto il filname: " + todo.filename);
     }
 
     //$.addTodo(todo);
-
-
-
     // salva todo su db
     // usando il modulo db.js
     //db.saveTodo(todo);
     // salva todo con Alloy Model
     //Ti.API.info(todo);
+
     if (inEditMode) {
         Ti.API.info('Modifico todo');
         // currentTodo contiene una copia del modello todo selezionato dalla collection
