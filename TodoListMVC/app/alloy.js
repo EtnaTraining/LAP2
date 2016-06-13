@@ -16,3 +16,5 @@ Ti.API.info("Path app : " + Ti.Filesystem.applicationDirectory);
 Ti.API.info("Path dataDirectory : " + Ti.Filesystem.applicationDataDirectory);
 Ti.API.info("===================================================");
 //Ti.API.info('Prova!');
+
+require('tiparsejs_wrapper')(Alloy.CFG.parseOptions);

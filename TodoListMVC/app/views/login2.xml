@@ -1,0 +1,11 @@
+<Alloy>
+	<Window>
+		<View id='wrapper'>
+				<ImageView image="/images/login.png" id='img'/>
+				<TextField id='username' hintText='username'/>
+				<TextField id='password' hintText='password'/>
+				<Button id='usercreate' onClick="usercreate" />
+				<Button id='login' onClick="login"/>
+		</View>
+	</Window>
+</Alloy>

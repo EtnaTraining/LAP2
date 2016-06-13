@@ -63,6 +63,7 @@
 	<modules>
 		<module platform="android">ti.map</module>
 		<module platform="iphone">ti.map</module>
+		<module platform="commonjs">TiParseJS</module>
 	</modules>
 	<deployment-targets>
 		<target device="android">true</target>

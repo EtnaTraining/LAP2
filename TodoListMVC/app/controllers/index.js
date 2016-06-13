@@ -23,3 +23,7 @@ function switchTab(tabNum) {
 }
 
 $.editTodoCtrl.switchTab = $.listTodoCtrl.switchTab = switchTab;
+
+var loginWin = Alloy.createController("login2").getView();
+Ti.API.info(loginWin.height);
+loginWin.open();

@@ -1,5 +1,12 @@
 {
-	"global": {},
+	"global": {
+		"parseOptions": {
+          "facebookAppId" : "<yourkeyhere>",
+          "applicationId": "TodoMVC20160806",
+          "javascriptkey": "<yourkeyhere>",
+          "restKey": "<yourkeyhere>"
+        }
+	},
 	"env:development": {},
 	"env:test": {},
 	"env:production": {},
