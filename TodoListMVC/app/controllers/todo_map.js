@@ -57,6 +57,7 @@ function findPosition(_callback) {
     Ti.Geolocation.getCurrentPosition(function(e) {
         if (e.success) {
             Ti.API.info("Posizione trovata");
+            Ti.API.info(JSON.stringify(e));
             Ti.API.info("Latitudine: " + e.coords.latitude);
             Ti.API.info("Latitudine: " + e.coords.longitude);
             Ti.Geolocation.reverseGeocoder(e.coords.latitude, e.coords.longitude, function(data) {
@@ -83,7 +84,7 @@ function findPosition(_callback) {
 
 function checkPermission(_callback) {
         //Ti.API.info("cerco la tua posizione:");
-        Ti.API.info('In getPosition');
+        Ti.API.info('In checkPermission');
 
         if (Ti.Geolocation.hasLocationPermissions(Ti.Geolocation.AUTHORIZATION_WHEN_IN_USE)) {
             Ti.API.info("Abbiamo i permessi");

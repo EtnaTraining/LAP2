@@ -2,7 +2,7 @@
 	"global": {
 		"parseOptions": {
           "facebookAppId" : "<yourkeyhere>",
-          "applicationId": "TodoMVC20160806",
+          "applicationId": "TodoListMVC20160611",
           "javascriptkey": "<yourkeyhere>",
           "restKey": "<yourkeyhere>"
         }

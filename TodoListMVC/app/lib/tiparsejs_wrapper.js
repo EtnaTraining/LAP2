@@ -255,7 +255,7 @@ var TiParse = function(options) {
   Parse.initialize(options.applicationId, options.javascriptkey);
 
   //Use Custom Server
-  Parse.serverURL = 'http://192.168.1.163:1337/parse';
+  Parse.serverURL = 'https://todolistmvc-lap2.rhcloud.com/parse';
 
   //
   // IF the appid was set for facebook then initialize facebook. if you are going
