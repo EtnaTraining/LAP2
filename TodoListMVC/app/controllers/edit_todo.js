@@ -5,6 +5,7 @@ var db = require("/services/db");
 var net = require("/services/net");
 
 var currentTodo = Alloy.Models.todo;
+var TodoParse = Parse.Object.extend("Todo");
 
 // da fixare
 if (OS_IOS) {
@@ -39,6 +40,8 @@ currentTodo.on("edit", function() {
             "/images/todo_default.png"
     });
     Ti.API.info("inEditMode: " + inEditMode);
+    Ti.API.info(currentTodo);
+    Ti.API.info("id =", currentTodo.id);
 
 });
 
@@ -105,18 +108,25 @@ function addTodo() {
         // invocando il metodo set sul modello restituito aggiorno la collection
         // e di conseguenza il binding aggiorna la TableView nella elenco_todo.xml
         // così abbiamo rimosso il fetch() dal database
+        Ti.API.info(currentTodo.id);
+        Ti.API.info(currentTodo.cid);
+        Ti.API.info(Alloy.Collections.todo.get(currentTodo));
         Alloy.Collections.todo.get(currentTodo).set(todo);
-        Alloy.Collections.todo.get(currentTodo).save();
+        // if we are offline
+        if (!Alloy.Globals.useCloud) {
+          Alloy.Collections.todo.get(currentTodo).save();
+        }
+
         // switch to tab1 (elenco_todo)
         $.switchTab(1);
         $.editBtn.title = "Aggiungi";
         $.edit_todo.title = "Aggiungi Todo";
-        inEditMode = false;
+
 
     } else {
         Ti.API.info('Aggiungo nuova todo');
         var newTodo = Alloy.createModel("todo", todo);
-        Ti.API.info(newTodo);
+        //Ti.API.info("alloyid", newTodo.id);
         Alloy.Collections.todo.add(newTodo);
         // switch to tab1 (elenco_todo)
         $.switchTab(1);
@@ -135,9 +145,38 @@ function addTodo() {
     // salva in rete
     if (Ti.Network.online) {
         todo.path = todo.thumb;
-        net.saveTodo(todo);
-    }
+        // salvataggio su server custom
+        //net.saveTodo(todo);
+        // salvataggio su Parse Server
+        if (Alloy.Globals.useCloud) {
+          todo.alarm = (todo.alarm == "true") ? true : false;
+          if (inEditMode) {
+            todo.id = currentTodo.id;
+          }
+          var newTodoParse = new TodoParse();
+          newTodoParse.set(todo);
+          newTodoParse.save({
+            user: Parse.User.current(),
+            ACL: new Parse.ACL(Parse.User.current())
+          }, {
+            success: function(parseTodo) {
+                Ti.API.info("todo salvata correttamente");
 
+                if (!inEditMode) {
+                  newTodo.set({"alloy_id": parseTodo.id});
+                  //Ti.API.info(parseTodo.id);
+                  //Ti.API.info(newTodo.id);
+                }
+                //Ti.API.info(todo.id);
+            },
+            error: function(todo, error) {
+                Ti.API.info("si è verifcato un errore");
+                alert(error);
+            }
+          });
+        }
+    }
+    inEditMode = false;
 }
 
 
@@ -192,4 +231,8 @@ function chooseImage(e){
         },
         allowEdition: true
     });
+}
+
+function login(e){
+  $.showLogin();
 }

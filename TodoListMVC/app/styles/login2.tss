@@ -5,7 +5,7 @@
 
 "#wrapper": {
         backgroundColor: "#fff",
-        borderRadius: 8,
+        //borderRadius: 8,
         //borderColor: '#000',
         //borderWidth: 2,
         width: "300dp",
@@ -18,20 +18,26 @@
         width:"100dp"
 },
 "TextField": {
-        backgroundColor: "#fff",
+        //backgroundColor: "#fff",
+        //backgroundColor: "cyan",
+        color: "black",
         left: "10dp", right: "10dp",
-        height: '40dp',
-        //borderColor: '#888',
-        top: "10dp",
-        borderStyle: Ti.UI.INPUT_BORDERSTYLE_ROUNDED
+        height: '45dp',
+        borderColor: '#888',
+        top: "20dp",
+        borderRadius: 5,
+        hintTextColor: "gray",
+        textAlign: Ti.UI.TEXT_ALIGNMENT_CENTER
+        //borderStyle: Ti.UI.INPUT_BORDERSTYLE_ROUNDED
 },
 "#username": {
         top: "10dp",
+        autocorrect: false,
         autocapitalization: Ti.UI.TEXT_AUTOCAPITALIZATION_NONE
 },
 "#password": {
         passwordMask: true,
-        autocorrection: false,
+        autocorrect: false,
         autocapitalization: Ti.UI.TEXT_AUTOCAPITALIZATION_NONE
 }
 "#usercreate": {
@@ -39,7 +45,7 @@
         //backgroundColor: '#fff',
         left: "10dp",
         right: "10dp",
-        height: '40dp',
+        height: '55dp',
         top: "30dp"
 },
 "#login": {
@@ -47,6 +53,6 @@
         //backgroundColor: '#fff',
         left: "10dp",
         right: "10dp",
-        height: '40dp',
+        height: '55dp',
         top: "10dp"
 }

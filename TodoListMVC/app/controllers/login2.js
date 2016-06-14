@@ -1,6 +1,8 @@
 // Arguments passed into this controller can be accessed via the `$.args` object directly or:
 var args = $.args;
 
+Alloy.Globals.useCloud = false;
+
 function usercreate(e){
     var login = $.username.value;
     var password = $.password.value;
@@ -14,7 +16,8 @@ function usercreate(e){
       success: function(user) {
         // Hooray! Let them use the app now.
         //alert("utente creato con successo")
-        $.login2.close();
+        Alloy.Globals.useCloud = true;
+        close();
       },
       error: function(user, error) {
         // Show the error message somewhere and let the user try again.
@@ -31,8 +34,41 @@ function login(e){
       success: function(user) {
         // Do stuff after successful login.
         //alert("login con successo");
-        $.login2.close();
-        console.log(user);
+
+        Alloy.Globals.useCloud = true;
+        close();
+        var TodoParse = Parse.Object.extend("Todo");
+
+        var query = new Parse.Query(TodoParse);
+        query.equalTo("user", Parse.User.current());
+
+        query.find({
+          success: function(results) {
+
+            //Ti.API.info(results.toJSON());
+            Ti.API.info("success");
+            Alloy.Collections.todo.reset();
+            //Ti.API.info(typeof(results));
+            Ti.API.info("Successfully retrieved", results.length );
+            // Do something with the returned Parse.Object values
+            for (var i = 0; i < results.length; i++) {
+              var object = results[i];
+              object.set("alloy_id", object.id);
+              Alloy.Collections.todo.add(object.toJSON());
+              //Ti.API.info(object.id + ' - ' + object.className);
+
+            }
+
+
+          },
+          error: function(error) {
+            Ti.API.info("Error retrieving data");
+            console.log("Error: " + error.code + " " + error.message);
+          }
+        });
+
+
+        //console.log(user);
       },
       error: function(user, error) {
         // The login failed. Check error to see why.
@@ -41,3 +77,27 @@ function login(e){
       }
     });
 }
+
+function close(e){
+  if (!Alloy.Globals.useCloud) {
+    var currentUser = Parse.User.current();
+    Ti.API.info("in close");
+    Ti.API.info(currentUser.authenticated());
+    if (currentUser && currentUser.authenticated()) {
+      Parse.User.logOut()
+        .then(function(results) {
+          Ti.API.info(results);
+        });
+    }
+    Alloy.Collections.todo.fetch();
+  }
+  if (OS_IOS) {
+    $.closeNav();
+  } else {
+    $.login2.close();
+  }
+}
+
+//$.username.value = "acaland";
+//$.password.value = "pippo1234";
+//login();

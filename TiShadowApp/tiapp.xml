@@ -21,7 +21,7 @@
     <statusbar-style>default</statusbar-style>
     <statusbar-hidden>false</statusbar-hidden>
     <fullscreen>false</fullscreen>
-    <navbar-hidden>true</navbar-hidden>
+    <navbar-hidden>false</navbar-hidden>
     <analytics>false</analytics>
     <guid>fc07d1fc-fe1d-42b0-9c42-4c3090392bfc</guid>
     <property name="ti.ui.defaultunit" type="string">dp</property>
@@ -189,7 +189,7 @@
     	</manifest>
     </android>
     	<modules>
-    <module platform="android" version="0.1.2">net.iamyellow.tiws</module>
+    
     <module platform="android" version="2.0.4">ti.compression</module>
     <module platform="android" version="0.1">yy.logcatcher</module>
     <module platform="iphone" version="0.5">net.iamyellow.tiws</module>

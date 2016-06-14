@@ -17,7 +17,8 @@
 "TextField": {
 	left: 100,
 	right: 10,
-    height: 45,
+  height: 45,
+  autocorrect: false
     /*borderWidth: 1,*/
 }
 "Switch": {

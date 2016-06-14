@@ -24,6 +24,25 @@ function switchTab(tabNum) {
 
 $.editTodoCtrl.switchTab = $.listTodoCtrl.switchTab = switchTab;
 
-var loginWin = Alloy.createController("login2").getView();
-Ti.API.info(loginWin.height);
-loginWin.open();
+function showLogin() {
+  var loginWinCtrl = Alloy.createController("login2");
+  var loginWin = loginWinCtrl.getView();
+  if (OS_IOS) {
+    var navWin = Ti.UI.iOS.createNavigationWindow({
+      window: loginWin,
+      modal: true
+    });
+    loginWinCtrl.closeNav = function() {
+      navWin.close();
+    }
+    navWin.open();
+  } else {
+    loginWin.open();
+  }
+}
+
+$.editTodoCtrl.showLogin = showLogin;
+
+showLogin();
+
+$.editTodoCtrl.showLogin = showLogin;

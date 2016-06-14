@@ -1,5 +1,11 @@
 <Alloy>
-	<Window>
+	<Window title="Cloud Login">
+		<LeftNavButton platform="ios">
+			<Button id="cancel" title="Offline" onClick="close"/>
+		</LeftNavButton>
+		<Menu id="menu" platform="android">
+				<MenuItem id="cancel" title="Offline" onClick="close" showAsAction="Ti.Android.SHOW_AS_ACTION_ALWAYS"/>
+		</Menu>
 		<View id='wrapper'>
 				<ImageView image="/images/login.png" id='img'/>
 				<TextField id='username' hintText='username'/>

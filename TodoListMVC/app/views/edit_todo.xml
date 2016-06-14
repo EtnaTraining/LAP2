@@ -1,6 +1,12 @@
 <Alloy>
 	<Model src="todo"/>
 	<Window class="container" title="Nuova Todo">
+		<LeftNavButton platform="ios">
+			<Button id="login" title="Login" onClick="login"/>
+		</LeftNavButton>
+		<Menu id="menu" platform="android">
+				<MenuItem id="login" title="Login" onClick="login"/>
+		</Menu>
 		<ScrollView id="sv" layout="vertical">
 		<View>
 			<Label on>Titolo</Label>

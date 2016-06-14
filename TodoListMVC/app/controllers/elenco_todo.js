@@ -12,6 +12,8 @@ function editTodo(e) {
     var index = e.index;
     //Ti.API.info(todolist.at(index));
     var todo = todolist.at(index).toJSON();
+
+    //Ti.API.info(todo);
     var currentTodo = Alloy.Models.todo;
 
     //Ti.API.info("singleton:");
@@ -55,6 +57,7 @@ function correctPath(todo) {
 //var todolist = Alloy.createCollection("todo");
 var todolist = Alloy.Collections.todo;
 todolist.fetch();
+
 //populate();
 
 /*$.actInd.show();
@@ -118,7 +121,29 @@ function deleteTodo(e) {
         });
         dialog.show();
     } else {
+      if (Alloy.Globals.useCloud) {
+        var TodoParse = Parse.Object.extend("Todo");
+        var toDeleteTodoParse = new TodoParse();
+        var toDeleteTodoAlloy =  Alloy.Collections.todo.at(e.index);
+        Ti.API.info(toDeleteTodoAlloy.id);
+        toDeleteTodoParse.set(toDeleteTodoAlloy);
+        toDeleteTodoParse.destroy({
+          success: function(todoParse) {
+              // The object was deleted from the Parse Cloud.
+              Ti.API.info("Successfully deleted");
+              Alloy.Collections.todo.remove(toDeleteTodoAlloy);
+          },
+          error: function(todoParse, error) {
+              // The delete failed.
+              // error is a Parse.Error with an error code and message.
+              Ti.API.info("error");
+              alert(error);
+          }
+        });
+      } else {
         Alloy.Collections.todo.at(e.index).destroy();
+      }
+
     }
 
 }
