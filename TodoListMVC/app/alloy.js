@@ -18,3 +18,5 @@ Ti.API.info("===================================================");
 //Ti.API.info('Prova!');
 
 require('tiparsejs_wrapper')(Alloy.CFG.parseOptions);
+
+Alloy.Globals.loading = Alloy.createWidget("nl.fokkezb.loading");

@@ -36,3 +36,22 @@ exports.saveTodo = function(todo) {
     xhr.open("POST", url + "/" + uuid);
     xhr.send(todo);
 };
+
+exports.fileUpload = function(filename, _callback) {
+    var xhr = Ti.Network.createHTTPClient();
+    var url = Alloy.CFG.parseOptions.parseServerURL + "/files/" + filename;
+    xhr.onload = function(e) {
+        if (e.success) {
+            var uploadUrl = JSON.parse(xhr.responseText).url;
+            Ti.API.info(uploadUrl);
+            _callback({success: true, url: uploadUrl});
+        }
+    };
+    xhr.onerror = function(e) {
+        alert("some error occured on the server");
+        Ti.API.info(e);
+    };
+    xhr.open("POST", url);
+    xhr.setRequestHeader("X-Parse-Application-Id", Alloy.CFG.parseOptions.applicationId);
+    xhr.send(Ti.Filesystem.getFile(Ti.Filesystem.applicationDataDirectory, filename));
+}

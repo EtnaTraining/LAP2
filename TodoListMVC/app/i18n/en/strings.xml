@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?><resources>
+  <string name="titolo">Title</string>
+  <string name="titolo_hint">What do you want to do</string>
+  <string name="win_title">Edit todo</string>
+  <string name="where_hint">Where do you do</string>
+  <string name="duedate">When</string>
+  <string name="alarm">Alarm</string>
+</resources>

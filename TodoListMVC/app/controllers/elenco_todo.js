@@ -9,6 +9,7 @@ var db = require("/services/db");
 var net = require("/services/net");
 
 function editTodo(e) {
+
     var index = e.index;
     //Ti.API.info(todolist.at(index));
     var todo = todolist.at(index).toJSON();
@@ -152,4 +153,52 @@ function deleteTodo(e) {
 
 $.addTodo = function(todo) {
     $.lista.appendRow(createRow(todo));
+}
+
+var todoDone = false;
+function toggleTodo(e){
+    e.source.text = todoDone ? "✓" : "☐";
+
+    todoDone = !todoDone;
+}
+
+function refresh(e){
+    //Alloy.Globals.loading.show("loading", false);
+    if (Alloy.Globals.useCloud) {
+        Alloy.Collections.todo.reset();
+        var TodoParse = Parse.Object.extend("Todo");
+
+        var query = new Parse.Query(TodoParse);
+        query.equalTo("user", Parse.User.current());
+
+        query.find({
+          success: function(results) {
+
+            //Ti.API.info(results.toJSON());
+            //Ti.API.info("success");
+            //Alloy.Collections.todo.reset();
+            //Ti.API.info(typeof(results));
+            Ti.API.info("Successfully retrieved", results.length );
+            // Do something with the returned Parse.Object values
+            var todolist = [];
+            for (var i = 0; i < results.length; i++) {
+              var object = results[i];
+              object.set("alloy_id", object.id);
+              todolist.push(object.toJSON());
+              //Alloy.Collections.todo.add(object.toJSON());
+            }
+            Alloy.Collections.todo.reset(todolist);
+            $.ptr.hide();
+          },
+          error: function(error) {
+            Ti.API.info("Error retrieving data");
+            console.log("Error: " + error.code + " " + error.message);
+            //Alloy.Globals.loading.hide();
+            $.ptr.hide();
+          }
+        });
+    } else {
+        $.ptr.hide();
+    }
+
 }

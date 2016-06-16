@@ -1,5 +1,11 @@
 <Alloy>
 	<TabGroup>
+		<Menu id="menu" platform="android">
+				<MenuItem id="login" title="Login"
+					showAsAction="Ti.Android.SHOW_AS_ACTION_ALWAYS"
+					onClick="showLogin"/>
+		</Menu>
+
 		<Tab  title="Modifica Todo" icon="KS_nav_ui.png">
 			<Require src="edit_todo" id="editTodoCtrl"/>
 		</Tab>

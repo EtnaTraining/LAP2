@@ -189,7 +189,7 @@
     	</manifest>
     </android>
     	<modules>
-    
+
     <module platform="android" version="2.0.4">ti.compression</module>
     <module platform="android" version="0.1">yy.logcatcher</module>
     <module platform="iphone" version="0.5">net.iamyellow.tiws</module>
@@ -201,6 +201,7 @@
     <module platform="commonjs">TiParseJS</module>
     <module platform="android" version="0.2.0">net.iamyellow.tiws</module>
   <module platform="android">bencoding.android.tools</module>
+  <module platform="android">com.rkam.swiperefreshlayout</module>
 </modules>
   <property name="tishadow:version" type="string">2.8.6</property>
   <property name="ti.android.bug2373.finishfalseroot" type="bool">true</property>

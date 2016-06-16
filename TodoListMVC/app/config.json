@@ -1,19 +1,23 @@
 {
-	"global": {
-		"parseOptions": {
-          "facebookAppId" : "<yourkeyhere>",
-          "applicationId": "TodoListMVC20160611",
-          "javascriptkey": "<yourkeyhere>",
-          "restKey": "<yourkeyhere>"
-        }
-	},
-	"env:development": {},
-	"env:test": {},
-	"env:production": {},
-	"os:android": {},
-	"os:blackberry": {},
-	"os:ios": {},
-	"os:mobileweb": {},
-	"os:windows": {},
-	"dependencies": {}
+  "global": {
+    "parseOptions": {
+      "facebookAppId": "<yourkeyhere>",
+      "applicationId": "TodoListMVC20160611",
+      "javascriptkey": "<yourkeyhere>",
+      "restKey": "<yourkeyhere>",
+      "parseServerURL": "https://todolistmvc-lap2.rhcloud.com/parse"
+    }
+  },
+  "env:development": {},
+  "env:test": {},
+  "env:production": {},
+  "os:android": {},
+  "os:blackberry": {},
+  "os:ios": {},
+  "os:mobileweb": {},
+  "os:windows": {},
+  "dependencies": {
+    "nl.fokkezb.loading": "*",
+    "nl.fokkezb.pullToRefresh": "*"
+  }
 }

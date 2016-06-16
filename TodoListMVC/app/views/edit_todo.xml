@@ -1,28 +1,25 @@
 <Alloy>
 	<Model src="todo"/>
-	<Window class="container" title="Nuova Todo">
+	<Window class="container" titleid="win_title">
 		<LeftNavButton platform="ios">
 			<Button id="login" title="Login" onClick="login"/>
 		</LeftNavButton>
-		<Menu id="menu" platform="android">
-				<MenuItem id="login" title="Login" onClick="login"/>
-		</Menu>
 		<ScrollView id="sv" layout="vertical">
 		<View>
-			<Label on>Titolo</Label>
-			<TextField id="titleTxt" hintText="cosa vuoi fare" value="{todo.title}"></TextField>
+			<Label textid="title"></Label>
+			<TextField id="titleTxt" hintText="L('titolo_hint', 'where')" value="{todo.title}"></TextField>
 		</View>
 		<View>
-			<Label>Dove</Label>
-			<TextField id="locationTxt" hintText="dove" value="{todo.location}"></TextField>
+			<Label textid="location"></Label>
+			<TextField id="locationTxt" hintText="L('where_hint')" value="{todo.location}"></TextField>
 			<ImageView id="gpsImg" image="/images/gps.png" onClick="showMap"></ImageView>
 		</View>
 		<View>
-			<Label>Allarme</Label>
+			<Label textid="alarm"></Label>
 			<Switch id="alarmSwt" value="false" value="{todo.alarm}"/>
 		</View>
 		<View>
-			<Label>Scadenza</Label>
+			<Label textid="duedate"></Label>
 			<Button id="scegliScadenzaBtn" onClick="scegliScadenza" title="{todo.duedateFormatted}"></Button>
 		</View>
 		<View id="footer">

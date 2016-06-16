@@ -1,12 +1,11 @@
-".logincontainer": {
-        backgroundColor: "black",
-        opacity: "0.7",
-        height: 300
 
-},
+".container" : {
+
+}
+
 "#wrapper": {
         backgroundColor: "#fff",
-        borderRadius: 8,
+        //borderRadius: 8,
         //borderColor: '#000',
         //borderWidth: 2,
         width: "300dp",
@@ -19,20 +18,28 @@
         width:"100dp"
 },
 "TextField": {
-        backgroundColor: "#fff",
+        //backgroundColor: "#fff",
+        //backgroundColor: "cyan",
+        color: "black",
         left: "10dp", right: "10dp",
-        height: '40dp',
-        //borderColor: '#888',
-        top: "10dp",
-        borderStyle: Ti.UI.INPUT_BORDERSTYLE_ROUNDED
+        height: '45dp',
+        top: "20dp",
+        hintTextColor: "gray",
+        textAlign: Ti.UI.TEXT_ALIGNMENT_CENTER
+        //borderStyle: Ti.UI.INPUT_BORDERSTYLE_ROUNDED
+},
+"TextField[platform=ios]": {
+    borderColor: '#888',
+    borderRadius: 5,
 },
 "#username": {
         top: "10dp",
+        autocorrect: false,
         autocapitalization: Ti.UI.TEXT_AUTOCAPITALIZATION_NONE
 },
 "#password": {
         passwordMask: true,
-        autocorrection: false,
+        autocorrect: false,
         autocapitalization: Ti.UI.TEXT_AUTOCAPITALIZATION_NONE
 }
 "#usercreate": {
@@ -40,14 +47,14 @@
         //backgroundColor: '#fff',
         left: "10dp",
         right: "10dp",
-        height: '40dp',
+        height: '55dp',
         top: "30dp"
 },
-"#login": {
+"#loginBtn": {
         title: 'Login',
         //backgroundColor: '#fff',
         left: "10dp",
         right: "10dp",
-        height: '40dp',
+        height: '55dp',
         top: "10dp"
 }

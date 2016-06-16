@@ -61,10 +61,11 @@
 		<theme>default</theme>
 	</mobileweb>
 	<modules>
-		<module platform="android">ti.map</module>
-		<module platform="iphone">ti.map</module>
-		<module platform="commonjs">TiParseJS</module>
-	</modules>
+    <module platform="android">ti.map</module>
+    <module platform="iphone">ti.map</module>
+    <module platform="commonjs">TiParseJS</module>
+    <module platform="android">com.rkam.swiperefreshlayout</module>
+  </modules>
 	<deployment-targets>
 		<target device="android">true</target>
 		<target device="ipad">false</target>

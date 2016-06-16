@@ -1,17 +1,19 @@
 <Alloy>
 	<Collection src="todo"></Collection>
 	<Window title="Elenco Todo">
-		<TableView
-			id="lista"
-			editable="true"
-			dataCollection="todo"
-			dataTransform="correctPath"
-			onClick="editTodo" onDelete="deleteTodo" onLongclick="deleteTodo" >
-			<TableViewRow
-				title="{title}"
-				leftImage="{thumb}"
-				hasChild="true"></TableViewRow>
-		</TableView>
+		<Widget id="ptr" src="nl.fokkezb.pullToRefresh" onRelease="refresh">
+			<TableView
+				id="lista"
+				editable="true"
+				dataCollection="todo"
+				dataTransform="correctPath"
+				onClick="editTodo" onDelete="deleteTodo" onLongclick="deleteTodo" >
+				<TableViewRow leftImage="{thumb}" title="{title}">
+					<Label id="todoTile" text="{title}" platform="android" />
+					<Label id="checkMark" text="☐" onClick="toggleTodo"/>
+				</TableViewRow>
+			</TableView>
+		</Widget>
 		<ActivityIndicator id="actInd" message="loading..."></ActivityIndicator>
 	</Window>
 </Alloy>

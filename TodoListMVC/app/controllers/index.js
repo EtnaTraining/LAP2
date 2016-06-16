@@ -25,7 +25,7 @@ function switchTab(tabNum) {
 $.editTodoCtrl.switchTab = $.listTodoCtrl.switchTab = switchTab;
 
 function showLogin() {
-  var loginWinCtrl = Alloy.createController("login2");
+  var loginWinCtrl = Alloy.createController("login");
   var loginWin = loginWinCtrl.getView();
   if (OS_IOS) {
     var navWin = Ti.UI.iOS.createNavigationWindow({
@@ -43,6 +43,8 @@ function showLogin() {
 
 $.editTodoCtrl.showLogin = showLogin;
 
+
 showLogin();
+//switchTab(1);
 
 $.editTodoCtrl.showLogin = showLogin;

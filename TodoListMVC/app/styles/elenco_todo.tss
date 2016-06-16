@@ -20,3 +20,24 @@
         fontSize: 20
     }
 }
+
+"#checkMark": {
+    right: 5,
+    //backgroundColor: "red",
+    width: 50,
+    height: 50,
+    color: "darkgray",
+    font: {
+        fontSize: 24
+    },
+    bubbleParent: false,
+    textAlign: Ti.UI.TEXT_ALIGNMENT_CENTER,
+}
+
+"#todoTile": {
+    color: "navy",
+    font: {
+        fontSize: 20
+    },
+    left: 10
+}
