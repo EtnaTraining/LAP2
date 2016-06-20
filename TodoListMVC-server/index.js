@@ -32,8 +32,8 @@ if(process.env.OPENSHIFT_APP_DNS) {
 var server = {
   databaseURI: databaseUri || 'mongodb://localhost:27017/dev',
   cloud: process.env.CLOUD_CODE_MAIN || __dirname + '/cloud/main.js',
-  appId: process.env.APP_ID || '', // Add here you appID
-  masterKey: process.env.MASTER_KEY || '', //Add your master key here. Keep it secret!
+  appId: process.env.APP_ID || 'TodolistMVC12012939012', // Add here you appID
+  masterKey: process.env.MASTER_KEY || 'wgwrjtwjtihjij2j5hiji', //Add your master key here. Keep it secret!
   serverURL: process.env.SERVER_URL || serverURL,  // Don't forget to change to https if needed
   liveQuery: {
 	  classNames: ["Posts", "Comments"] // List of classes to support for query subscriptions
@@ -42,16 +42,9 @@ var server = {
    android: {
 	 senderId: '', // The Sender ID of GCM
 	 apiKey: '' // The Server API Key of GCM
-   },
-   ios: {
-	 pfx: '', // The filename of private key and certificate in PFX or PKCS12 format from disk
-	 passphrase: '', // optional password to your p12
-	 cert: '', // If not using the .p12 format, the path to the certificate PEM to load from disk
-	 key: '', // If not using the .p12 format, the path to the private key PEM to load from disk
-	 bundleId: '', // The bundle identifier associate with your app
-	 production: false // Specifies which environment to connect to: Production (if true) or Sandbox
    }
  }
+
 };
 //Init ParseDashboard
 var dashboard = {

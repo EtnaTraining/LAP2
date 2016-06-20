@@ -25,6 +25,7 @@
     <analytics>false</analytics>
     <guid>fc07d1fc-fe1d-42b0-9c42-4c3090392bfc</guid>
     <property name="ti.ui.defaultunit" type="string">dp</property>
+    <property name="gcm.senderid">602715859242</property>
     <ios>
       <plist>
   			<dict>
@@ -184,12 +185,11 @@
           <meta-data android:name="com.sec.android.support.multiwindow" android:value="true"/>
           <!-- Replace "PASTE YOUR GOOGLE MAPS API KEY HERE" with the Google API key you obtained -->
           <meta-data android:name="com.google.android.maps.v2.API_KEY"
-              android:value="PASTE YOUR GOOGLE MAPS API KEY HERE"/>
+              android:value="AIzaSyA6bQeuXuxr7zlLAfdCF6W7Vv43v3uiqE8"/>
         </application>
     	</manifest>
     </android>
     	<modules>
-
     <module platform="android" version="2.0.4">ti.compression</module>
     <module platform="android" version="0.1">yy.logcatcher</module>
     <module platform="iphone" version="0.5">net.iamyellow.tiws</module>
@@ -200,9 +200,10 @@
     <module platform="iphone">ti.map</module>
     <module platform="commonjs">TiParseJS</module>
     <module platform="android" version="0.2.0">net.iamyellow.tiws</module>
-  <module platform="android">bencoding.android.tools</module>
-  <module platform="android">com.rkam.swiperefreshlayout</module>
-</modules>
+    <module platform="android">bencoding.android.tools</module>
+    <module platform="android">com.rkam.swiperefreshlayout</module>
+    <module platform="android">ti.goosh</module>
+  </modules>
   <property name="tishadow:version" type="string">2.8.6</property>
   <property name="ti.android.bug2373.finishfalseroot" type="bool">true</property>
 

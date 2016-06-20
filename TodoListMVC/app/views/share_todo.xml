@@ -1,0 +1,5 @@
+<Alloy>
+	<Window title="choose a user" onOpen="loadUsers">
+		<TableView id="userList" onClick="shareWith"></TableView>
+	</Window>
+</Alloy>

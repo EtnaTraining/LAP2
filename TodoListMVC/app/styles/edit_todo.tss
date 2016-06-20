@@ -45,6 +45,10 @@
 
 }
 
+"#shareBtn": {
+    right: 10
+}
+
 "#thumb": {
     left: 5,
     height: 80,

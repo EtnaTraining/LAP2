@@ -12,6 +12,7 @@
 	<analytics>true</analytics>
 	<guid>e74a8a7f-f8b6-46ad-b8b5-f548ee891cc8</guid>
 	<property name="ti.ui.defaultunit" type="string">dp</property>
+	<property name="gcm.senderid">602715859242</property>
 	<ios>
 		<enable-launch-screen-storyboard>true</enable-launch-screen-storyboard>
 		<plist>
@@ -65,6 +66,7 @@
     <module platform="iphone">ti.map</module>
     <module platform="commonjs">TiParseJS</module>
     <module platform="android">com.rkam.swiperefreshlayout</module>
+	<module platform="android">ti.goosh</module>
   </modules>
 	<deployment-targets>
 		<target device="android">true</target>

@@ -4,6 +4,9 @@
 				<MenuItem id="login" title="Login"
 					showAsAction="Ti.Android.SHOW_AS_ACTION_ALWAYS"
 					onClick="showLogin"/>
+				<MenuItem id="share" title="Share"
+					showAsAction="Ti.Android.SHOW_AS_ACTION_ALWAYS"
+					onClick="share"/>
 		</Menu>
 
 		<Tab  title="Modifica Todo" icon="KS_nav_ui.png">

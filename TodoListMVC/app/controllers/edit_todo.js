@@ -5,7 +5,7 @@ var db = require("/services/db");
 var net = require("/services/net");
 
 var currentTodo = Alloy.Models.todo;
-var TodoParse = Parse.Object.extend("Todo");
+    var TodoParse = Parse.Object.extend("Todo");
 
 // da fixare
 if (OS_IOS) {
@@ -34,15 +34,16 @@ currentTodo.on("edit", function() {
 
     currentTodo.set({
         "duedateFormatted": String.formatDate(new Date(currentTodo.get("duedate")), "medium"),
-        "thumb": currentTodo.get("filename")?
+        "thumb": currentTodo.get("url") ? currentTodo.get("url") : (currentTodo.get("filename")?
             Ti.Filesystem.applicationDataDirectory +
             currentTodo.get("filename").substr(0, currentTodo.get("filename").length-4) + "_thumb.jpg" :
-            "/images/todo_default.png"
+            "/images/todo_default.png")
     });
     Ti.API.info("inEditMode: " + inEditMode);
     Ti.API.info(currentTodo);
     Ti.API.info("id =", currentTodo.id);
-
+    $.edit_todo.rightNavButton = $.shareBtn;
+    $.shareBtn.visible = true;
 });
 
 
@@ -74,6 +75,7 @@ function addTodo() {
     todo.location = $.locationTxt.value;
     todo.alarm = $.alarmSwt.value;
     todo.duedate = selectedDate.toISOString().split("T")[0];
+
 
     if (typeof($.thumb.image) != "string") {
         var filename = todo.title.replace(/ /g, "_") + "-" + new Date().getTime();
@@ -110,6 +112,8 @@ function addTodo() {
         // così abbiamo rimosso il fetch() dal database
         Ti.API.info(currentTodo.id);
         Ti.API.info(currentTodo.cid);
+        Ti.API.info(Alloy.Collections.todo);
+        Ti.API.info("corrente");
         Ti.API.info(Alloy.Collections.todo.get(currentTodo));
         Alloy.Collections.todo.get(currentTodo).set(todo);
         // if we are offline
@@ -125,12 +129,20 @@ function addTodo() {
 
     } else {
         Ti.API.info('Aggiungo nuova todo');
+        todo.done = "false";
+        Ti.API.info(todo);
         var newTodo = Alloy.createModel("todo", todo);
+        Ti.API.info(newTodo);
         //Ti.API.info("alloyid", newTodo.id);
-        Alloy.Collections.todo.add(newTodo);
+        if (!Alloy.Globals.useCloud) {
+            newTodo.save();
+            Alloy.Collections.todo.add(newTodo);
+        }
+
+
         // switch to tab1 (elenco_todo)
         $.switchTab(1);
-        newTodo.save();
+
     }
 
     selectedDate = new Date();
@@ -161,13 +173,36 @@ function addTodo() {
           }, {
             success: function(parseTodo) {
                 Ti.API.info("todo salvata correttamente");
-
+                // Parse.Cloud.run('notifyUser', { userId: 'DL0CFKuBMf', todoId: parseTodo.id })
+                //     .then(function(e) {
+                //   // ratings should be 4.5
+                //     Ti.API.info("vaaa bene");
+                //     Ti.API.info(e);
+                // });
+                Ti.API.info("inEditMode", inEditMode);
                 if (!inEditMode) {
-                  newTodo.set({"alloy_id": parseTodo.id});
-                  //Ti.API.info(parseTodo.id);
-                  //Ti.API.info(newTodo.id);
+                    Ti.API.info("setting todo id");
+                    todo.alloy_id = parseTodo.id;
+                    Alloy.Collections.todo.add(todo);
                 }
-                //Ti.API.info(todo.id);
+                Ti.API.info("ciao");
+                Ti.API.info("todo.filename:", todo.filename);
+                if (todo.filename) {
+                    net.fileUpload(todo.filename, function(e) {
+                        if (e.success) {
+                            parseTodo.set("url", e.url);
+                            parseTodo.save();
+                            if (!inEditMode) {
+                                newTodo.set({"url": e.url});
+                            }
+
+                            inEditMode = false;
+                        }
+                    });
+                } else {
+                    inEditMode = false;
+                }
+
             },
             error: function(todo, error) {
                 Ti.API.info("si è verifcato un errore");
@@ -175,8 +210,12 @@ function addTodo() {
             }
           });
         }
+
+    } else {
+        inEditMode = false;
     }
-    inEditMode = false;
+    //$.shareBtn.visible = false;
+    $.edit_todo.rightNavButton = null;
 }
 
 
@@ -236,3 +275,54 @@ function chooseImage(e){
 function login(e){
   $.showLogin();
 }
+
+function share(e){
+    if (!Alloy.Globals.useCloud) {
+        alert("you are offline! Log in to share");
+        return;
+    }
+    var shareWin = Alloy.createController("share_todo", {
+        currentACL: currentTodo.get("ACL"),
+        shareWith: function(userId) {
+            if (!currentTodo.id) {
+                alert("please select a todo first");
+                return;
+            }
+            if (currentTodo.get("ACL")[userId]) {
+                alert("already shared with this user");
+                return;
+            }
+            currentTodo.get("ACL")[userId] = {"read": true, "write":true};
+            Ti.API.info("currentTodo");
+            //Ti.API.info(currentTodo);
+            var newTodoParse = new TodoParse();
+            newTodoParse.set({id: currentTodo.id});
+            newTodoParse.setACL(new Parse.ACL(currentTodo.get("ACL")));
+            Ti.API.info(newTodoParse);
+            Ti.API.info(userId);
+            newTodoParse.save(null, {
+              success: function(parseTodo) {
+                  Ti.API.info("ACL set correctly");
+                  Parse.Cloud.run('notifyUser', { userId: userId, todoId: parseTodo.id })
+                      .then(function(e) {
+                    // ratings should be 4.5
+                      Ti.API.info("push inviata");
+                      Ti.API.info(e);
+                      alert("Shared successfully!!")
+                  });
+              },
+              error: function(parseTodo, error) {
+                  Ti.API.info("error while setting ACL");
+                  Ti.API.info(error);
+              }
+          });
+        }
+    }).getView();
+    if (OS_IOS) {
+        $.openWindow(shareWin);
+    } else {
+        shareWin.open();
+    }
+}
+
+$.share = share;

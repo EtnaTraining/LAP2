@@ -30,7 +30,8 @@
     font: {
         fontSize: 24
     },
-    bubbleParent: false,
+    checkmark: "true",
+    //bubbleParent: false,
     textAlign: Ti.UI.TEXT_ALIGNMENT_CENTER,
 }
 

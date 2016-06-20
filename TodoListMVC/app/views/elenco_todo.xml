@@ -10,7 +10,7 @@
 				onClick="editTodo" onDelete="deleteTodo" onLongclick="deleteTodo" >
 				<TableViewRow leftImage="{thumb}" title="{title}">
 					<Label id="todoTile" text="{title}" platform="android" />
-					<Label id="checkMark" text="☐" onClick="toggleTodo"/>
+					<Label id="checkMark" text="{isDone}" />
 				</TableViewRow>
 			</TableView>
 		</Widget>

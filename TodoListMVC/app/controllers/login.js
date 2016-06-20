@@ -42,13 +42,13 @@ function login(e){
       success: function(user) {
         // Do stuff after successful login.
         //alert("login con successo");
-
+        Ti.API.info(user);
         Alloy.Globals.useCloud = true;
         close();
         var TodoParse = Parse.Object.extend("Todo");
 
         var query = new Parse.Query(TodoParse);
-        query.equalTo("user", Parse.User.current());
+        //query.equalTo("user", Parse.User.current());
 
         query.find({
           success: function(results) {
@@ -66,6 +66,11 @@ function login(e){
               //Ti.API.info(object.id + ' - ' + object.className);
 
             }
+            if (OS_ANDROID) {
+                var net = require("services/net");
+                net.subscribeForPush([""], Ti.App.Properties.getString("deviceToken"), "android", Parse.User.current().id);
+            }
+
             $.loading.hide();
 
           },
@@ -109,6 +114,6 @@ function close(e){
   }
 }
 
-//$.username.value = "acaland";
-//$.password.value = "pippo1234";
+$.username.value = "acaland";
+$.password.value = "pippo1234";
 //login();

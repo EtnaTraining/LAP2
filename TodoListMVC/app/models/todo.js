@@ -5,7 +5,8 @@ exports.definition = {
 		    "location": "text",
 		    "alarm": "boolean",
 		    "duedate": "date",
-			  "filename": "text"
+			"done": "boolean",
+			"filename": "text"
 		},
 		adapter: {
 			type: "sql",

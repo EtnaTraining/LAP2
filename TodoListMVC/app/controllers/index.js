@@ -48,3 +48,65 @@ showLogin();
 //switchTab(1);
 
 $.editTodoCtrl.showLogin = showLogin;
+
+
+if (OS_ANDROID) {
+    var gcm = require('ti.goosh');
+    Ti.API.info("registeringForPushNotifications");
+    gcm.registerForPushNotifications({
+
+        senderId: '602715859242',
+        // The callback to invoke when a notification arrives.
+        callback: function(e) {
+
+            //var data = JSON.parse(e.data || '');
+            //var notification = JSON.parse(e.notification || '');
+            Ti.API.info(e);
+            alert(e);
+            var todoId = JSON.parse(e.data).objectId;
+            var TodoParse = Parse.Object.extend("Todo");
+            var newTodoParse = new TodoParse();
+            newTodoParse.set({id: todoId});
+            newTodoParse.fetch({
+                success: function(todo) {
+                    Ti.API.info("todo recuperata:");
+                    Ti.API.info(todo);
+                    todo.set("alloy_id", todoId);
+                    Alloy.Collections.todo.add(todo.toJSON());
+                },
+                error: function(todo, error) {
+                    Ti.API.info("error trying to retrieve the todo", todoId);
+                    Ti.API.info(error);
+                }
+            });
+
+            // faccio la query e recupero la todo e la aggiungo alla collections!
+            //alert(data);
+
+        },
+
+        // The callback invoked when you have the device token.
+        success: function(e) {
+
+            // Send the e.deviceToken variable to your PUSH server
+            Ti.API.log('Notifications: device token is ' + e.deviceToken);
+            Ti.App.Properties.setString("deviceToken", e.deviceToken);
+
+        },
+
+        // The callback invoked on some errors.
+        error: function(err) {
+            Ti.API.error('Notifications: Retrieve device token failed', err);
+        }
+    });
+}
+
+function share(e){
+    // se non c'è selezionata alcuna todo non
+    if (Alloy.Models.todo.id) {
+        $.editTodoCtrl.share();
+    } else {
+        alert("select some todo first");
+    }
+
+}

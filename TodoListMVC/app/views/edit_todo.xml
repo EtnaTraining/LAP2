@@ -4,6 +4,7 @@
 		<LeftNavButton platform="ios">
 			<Button id="login" title="Login" onClick="login"/>
 		</LeftNavButton>
+
 		<ScrollView id="sv" layout="vertical">
 		<View>
 			<Label textid="title"></Label>
@@ -22,13 +23,16 @@
 			<Label textid="duedate"></Label>
 			<Button id="scegliScadenzaBtn" onClick="scegliScadenza" title="{todo.duedateFormatted}"></Button>
 		</View>
+
 		<View id="footer">
 			<ImageView id="thumb"
 				image="{todo.thumb}"
 
 				onClick="chooseImage"></ImageView>
 			<Button id="editBtn" onClick="addTodo">Aggiungi</Button>
+
 		</View>
 	</ScrollView>
 	</Window>
+	<Button id="shareBtn" title="Share" onClick="share" />
 </Alloy>
